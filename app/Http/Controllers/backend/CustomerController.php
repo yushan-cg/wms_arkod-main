@@ -25,18 +25,11 @@ class CustomerController extends Controller
         $user = auth()->user();
 
         // Get the customers that belong to the user
-        $customers = Customer::where('user_id', $user->id)->get();
+        $customers = Customer::where('UID', $user->id)->get();
 
         // Return the view with the companies data
         return view('backend.customer.detail_customer', compact('customers'));
 
-    }
-
-    public function getUsers()
-    {
-        $users = User::all();
-    
-        return response()->json($users);
     }
 
     public function showAll()

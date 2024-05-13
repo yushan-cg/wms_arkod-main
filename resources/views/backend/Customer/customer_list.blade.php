@@ -41,7 +41,7 @@
 						<th>Address</th>
 						<th>Contact</th>
 						<th>Email</th>
-						<th>Attantion</th>
+						<th>Attention</th>
                         <th>Action</th>
                     </tr>
 						</thead>
@@ -55,7 +55,7 @@
 							<td>{{ $customer->CustomerEmail }}</td>
 							<td>{{ $customer->CustomerAttn }}</td>
                             <td>
-                                <a href="{{ route('orderList', ['CustomerID' => $customer->CustomerID]) }}" class="btn btn-primary btn-sm">Check Invoice</a>
+                                <a href="#" class="btn btn-primary btn-sm">Check Invoice</a>
                             </td>
                         </tr>
                     @endforeach

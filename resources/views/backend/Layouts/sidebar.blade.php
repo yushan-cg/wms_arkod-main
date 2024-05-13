@@ -111,8 +111,8 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{ URL::to('/company_list') }}"><i class="icon-Commit"><span
-                                                class="path1"></span><span class="path2"></span></i>Company List</a>
+                                <li><a href="{{ URL::to('/customer_list') }}"><i class="icon-Commit"><span
+                                                class="path1"></span><span class="path2"></span></i>Customer List</a>
                                 </li>
                                 <li><a href="{{ URL::to('/user_list') }}"><i class="icon-Commit"><span
                                                 class="path1"></span><span class="path2"></span></i>User List</a>

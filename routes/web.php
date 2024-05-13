@@ -12,6 +12,7 @@ use App\Http\Controllers\backend\QuantityController;
 use App\Http\Controllers\backend\PickerController;
 use App\Http\Controllers\backend\CartController;
 use App\Http\Controllers\backend\CompanyController;
+use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\backend\RackController;
 use App\Http\Controllers\backend\FloorController;
 use App\Http\Controllers\backend\OrderController;
@@ -91,6 +92,10 @@ Route::get('/companies/{id}/edit', [CompanyController::class, 'edit'])->name('co
 Route::put('/companies/{id}', [CompanyController::class, 'update'])->name('company.update');
 Route::delete('/companies/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
 Route::get('/company_list', [CompanyController::class, 'showAll'])->name('companylist');
+
+// Customer
+Route::get('/customer_list', [CustomerController::class, 'showAll'])->name('customerlist');
+
 
 // Quantity
 Route::get('quantity_list', [QuantityController::class, 'ProductQuantityList'])->name('quantity.index');

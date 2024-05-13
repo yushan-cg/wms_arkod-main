@@ -31,6 +31,11 @@ class Product extends Model
         return $this->belongsTo(Company::class);
     }
 
+        public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function productreport()
     {
         return $this->belongsTo(ProductReport::class);
