@@ -598,30 +598,5 @@
 	</div> -->
 	@yield('page content overlay')
 </body>
-    {{-- Picker Status Script --}}
-    <script>
-        $(document).ready(function() {
-            updateProceedToPackingButton();
-    
-            // Listen for changes to the table rows
-            $('.status-cell').on('DOMSubtreeModified', function() {
-                updateProceedToPackingButton();
-            });
-        });
-    
-        function updateProceedToPackingButton() {
-            var pendingRows = $('td:contains("Pending")').parent();
-            var proceedButton = $('#proceed-to-packing');
-    
-            if (pendingRows.length > 0) {
-                proceedButton.prop('disabled', true);
-            } else {
-                proceedButton.prop('disabled', false);
-            }
-        }
-    
-        $('#proceed-to-packing').click(function() {
-            window.location.href = "{{ route('picker.history') }}";
-        });
-    </script>
+
 </html>

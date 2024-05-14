@@ -9,10 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Models\Product;
-use App\Models\Company;
 use App\Models\User;
-use App\Models\Rack;
-use App\Models\Floor;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Restock;
 use App\Models\ProductRequest;
@@ -25,6 +22,7 @@ class ProductController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -38,40 +36,36 @@ class ProductController extends Controller
         if ($user->role == 1) {
             // if admin, get all products from the database
             $list = DB::table('products')
-                ->join('quantities', 'products.id', '=', 'quantities.product_id')
-                ->join('companies', 'products.company_id', '=', 'companies.id')
-                ->leftjoin('rack_locations', 'products.rack_id', '=', 'rack_locations.id')
-                ->leftjoin('floor_locations', 'products.floor_id', '=', 'floor_locations.id')
-                ->join('weights', 'products.id', '=', 'weights.product_id')
-                ->select('products.id','products.product_code', 'rack_locations.location_code', 'floor_locations.location_codes', 'companies.company_name', 'products.product_name', 'products.product_desc', 'products.item_per_carton', 'products.carton_quantity', 'quantities.total_quantity', 'quantities.remaining_quantity', 'products.weight_per_item', 'products.weight_per_carton', 'weights.weight_of_product', 'products.product_dimensions', 'products.product_image', 'products.date_to_be_stored')
+                ->leftJoin('customers', 'products.CID', '=', 'customers.CustomerID') // Ensure correct field names
+                ->select('products.ProductID', 'products.ProductName', 'customers.CustomerName', 'products.SKU', 'products.ProductLabel', 
+                        'products.ProductExpiredDate', 'products.ProductImg', 'products.UOM', 'products.WeightPerUnit', 
+                        'products.updated_at')
                 ->get();
-
 
         } else {
             // if not admin, get products owned by the user
-            if ($user->role == 3) {
-                // if the user is of role 3, get products owned by the user with role 3
-                $list = DB::table('products')
-                    ->join('quantities', 'products.id', '=', 'quantities.product_id')
-                    ->join('companies', 'products.company_id', '=', 'companies.id')
-                    ->join('weights', 'products.id', '=', 'weights.product_id')
-                    ->select('products.id' ,'products.product_code', 'weights.weight_of_product', 'companies.company_name', 'products.product_name', 'products.product_desc', 'products.item_per_carton', 'products.carton_quantity', 'quantities.total_quantity', 'quantities.remaining_quantity', 'products.weight_per_item', 'products.weight_per_carton', 'products.product_dimensions', 'products.product_image', 'products.date_to_be_stored')
-                    ->where('products.user_id', $user_id)
-                    ->get();
-            } else {
-                // if the user is not an admin or of role 3, get products owned by the user
-                $list = DB::table('products')->where('user_id', $user->id)->get();
-            }
+            // if ($user->role == 3) {
+            //     // if the user is of role 3, get products owned by the user with role 3
+            //     $list = DB::table('products')
+            //         ->join('quantities', 'products.id', '=', 'quantities.product_id')
+            //         ->join('companies', 'products.company_id', '=', 'companies.id')
+            //         ->join('weights', 'products.id', '=', 'weights.product_id')
+            //         ->select('products.id' ,'products.product_code', 'weights.weight_of_product', 'companies.company_name', 'products.product_name', 'products.product_desc', 'products.item_per_carton', 'products.carton_quantity', 'quantities.total_quantity', 'quantities.remaining_quantity', 'products.weight_per_item', 'products.weight_per_carton', 'products.product_dimensions', 'products.product_image', 'products.date_to_be_stored')
+            //         ->where('products.user_id', $user_id)
+            //         ->get();
+            // } else {
+            //     // if the user is not an admin or of role 3, get products owned by the user
+            //     $list = DB::table('products')->where('user_id', $user->id)->get();
+            // }
         }
         //dd($list);
         // return the view with the list of products
         return view('backend.product.list_product', compact('list'));
     }
 
-
     public function getUsers(Request $request)
     {
-        $company = Company::find($request->company_id);
+        $customer = Customer::find($request->CustomerID);
         $users = $company->users;
 
         return response()->json($users);
@@ -116,12 +110,12 @@ class ProductController extends Controller
      */
     public function ProductInsert(Request $request)
     {
-        $number = mt_rand(1000000000, 9999999999);
+        // $number = mt_rand(1000000000, 9999999999);
 
-        if ($this->productCodeExists($number)) {
-            $number = mt_rand(1000000000, 9999999999);
-        }
-        $request['product_code'] = $number;
+        // if ($this->productCodeExists($number)) {
+        //     $number = mt_rand(1000000000, 9999999999);
+        // }
+        // $request['product_code'] = $number;
 
         // Calculate the total quantity
         $total_quantity = $request->carton_quantity * $request->item_per_carton;
@@ -172,19 +166,19 @@ class ProductController extends Controller
             'carton_quantity' => 'required|integer',
             'product_price' => 'required|numeric',
             'item_per_carton' => 'required|integer',
-            // 'product_code' => 'required|string',
+            'product_code' => 'required|string',
             'product_image' => 'required|image|max:2048',
             'rack_id' => 'required_without:floor_id',
             'floor_id' => 'required_without:rack_id'
         ]);
 
-        $company = DB::table('companies')
-            ->where('id', $request->company_id)
+        $customer = DB::table('customers')
+            ->where('id', $request->CustomerID)
             ->first();
 
         $data = [
-            'user_id' => $company->user_id,
-            'company_id' => $request->company_id,
+            'user_id' => $Customer->UID,
+            'customer_id' => $request->CustomerID,
             'product_name' => $request->product_name,
             'product_desc' => $request->product_desc,
             'product_code' => $request->product_code,
@@ -286,21 +280,22 @@ class ProductController extends Controller
             }
         }
     }
-    public function productCodeExists($number)
-    {
-        return product::whereProductCode($number)->exists();
-    }
+    
+    // public function productCodeExists($number)
+    // {
+    //     return product::whereProductCode($number)->exists();
+    // }
+
     public function ProductEdit($id)
     {
         $edit = DB::table('products')
-            ->join('companies', 'products.company_id', '=', 'companies.id')
-            ->select('products.id', 'products.company_id', 'companies.id AS company_id', 'companies.company_name', 'product_name', 'product_desc', 'product_image', 'product_dimensions', 'date_to_be_stored', 'weight_per_item', 'weight_per_carton', 'product_price')
-            ->where('products.id', $id)
-            ->first();
+                ->leftJoin('customers', 'products.CID', '=', 'customers.CustomerID') // Ensure correct field names
+                ->select('products.ProductID', 'products.ProductName', 'customers.CustomerName', 'products.SKU', 'products.ProductLabel', 'products.ProductExpiredDate', 'products.ProductImg', 'products.UOM', 'products.WeightPerUnit')
+                ->where('products.ProductID', $id)
+                ->first();
+        $customers = Customer::all();
 
-        $companies = Company::all();
-
-        return view('backend.product.edit_product', compact('edit', 'companies'));
+        return view('backend.product.edit_product', compact('edit', 'customers'));
     }
 
 
@@ -356,43 +351,43 @@ class ProductController extends Controller
 
     public function ProductDelete($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::where('ProductID', $id)->firstOrFail();
 
-        $rack_id = $product->rack_id;
-        $floor_id = $product->floor_id;
+        //$rack_id = $product->rack_id;
+        //$floor_id = $product->floor_id;
 
-        if ($floor_id != null && $rack_id === null) {
-            $newOccupied = DB::table('weights')
-                ->join('floor_locations', 'floor_locations.id', '=', 'weights.floor_id')
-                ->where('floor_locations.id', '=', $floor_id)
-                ->where('weights.product_id', '!=', $id) // exclude the product being deleted
-                ->sum('weights.weight_of_product');
+        // if ($floor_id != null && $rack_id === null) {
+        //     $newOccupied = DB::table('weights')
+        //         ->join('floor_locations', 'floor_locations.id', '=', 'weights.floor_id')
+        //         ->where('floor_locations.id', '=', $floor_id)
+        //         ->where('weights.product_id', '!=', $id) // exclude the product being deleted
+        //         ->sum('weights.weight_of_product');
 
 
-            DB::table('floor_locations')
-                ->where('id', '=', $floor_id)
-                ->update(['occupied' => $newOccupied]);
+        //     DB::table('floor_locations')
+        //         ->where('id', '=', $floor_id)
+        //         ->update(['occupied' => $newOccupied]);
 
-        } else if ($rack_id != null && $floor_id === null) {
-            $newOccupied = DB::table('weights')
-                ->join('rack_locations', 'rack_locations.id', '=', 'weights.rack_id')
-                ->where('rack_locations.id', '=', $rack_id)
-                ->where('weights.product_id', '!=', $id) // exclude the product being deleted
-                ->sum('weights.weight_of_product');
+        // } else if ($rack_id != null && $floor_id === null) {
+        //     $newOccupied = DB::table('weights')
+        //         ->join('rack_locations', 'rack_locations.id', '=', 'weights.rack_id')
+        //         ->where('rack_locations.id', '=', $rack_id)
+        //         ->where('weights.product_id', '!=', $id) // exclude the product being deleted
+        //         ->sum('weights.weight_of_product');
 
-            $newOccupiedFloor = DB::table('weights')
-                ->join('floor_locations', 'floor_locations.id', '=', 'weights.floor_id')
-                ->where('floor_locations.id', '=', $floor_id)
-                ->where('weights.product_id', '!=', $id) // exclude the product being deleted
-                ->sum('weights.weight_of_product');
+        //     $newOccupiedFloor = DB::table('weights')
+        //         ->join('floor_locations', 'floor_locations.id', '=', 'weights.floor_id')
+        //         ->where('floor_locations.id', '=', $floor_id)
+        //         ->where('weights.product_id', '!=', $id) // exclude the product being deleted
+        //         ->sum('weights.weight_of_product');
 
-            DB::table('rack_locations')
-                ->where('id', '=', $rack_id)
-                ->update(['occupied' => $newOccupied]);
+        //     DB::table('rack_locations')
+        //         ->where('id', '=', $rack_id)
+        //         ->update(['occupied' => $newOccupied]);
 
-        } else {
-            return redirect()->back()->with('error', 'Cannot delete product.')->withInput();
-        }
+        // } else {
+        //     return redirect()->back()->with('error', 'Cannot delete product.')->withInput();
+        // }
 
 
         if ($product->delete()) {

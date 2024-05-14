@@ -37,49 +37,48 @@
 						<table id="productorder" class="table table-hover no-wrap product-order" data-page-size="10">
 							<thead>
 								<tr>
-								<th>ID</th>
-								<th>Company</th>
+								<th>#</th>
+								<th>Customer/Company</th>
+								<th>SKU</th>
+								<th>Product Name</th>
+								<th>Description</th>
+								<th>Expired Date</th>
 								@if (Auth::user()->role == 1 || Auth::user()->role == 2)
-								<th>Rack Location</th>
-								<th>Floor Location</th>
+								{{-- <th>Location Code</th> --}}
 								@endif
 								<th>Product Image</th>
-								<th>Product Name</th>
-                                <th>Product Code</th>
-								<th>Quantity</th>
-								<th>Weight(KG)</th>
 								@if (Auth::user()->role == 1)
                                 <th>Action</th>
 								@endif
 								</tr>
 							</thead>
 							<tbody>
-                            @foreach ($list as $row)
-                                <?php $P_code=$row->product_code ?>
+                            @foreach ($list as $index => $row)
 
                                 <tr>
-                                    <td>{{ $row->id }}</td>
-                                    <td>{{ $row->company_name }}</td>
+									<td>{{ $loop->iteration }}</td> <!-- Billing number -->
+                                    <td>{{ $row->CustomerName }}</td>
+									<td>{{ $row->SKU }}</td>
+									<td>{{ $row->ProductName }}</td>
+									<td>{{ $row->ProductLabel }}</td>
+									<td>{{ $row->ProductExpiredDate }}</td>
                                     @if (Auth::user()->role == 1 || Auth::user()->role == 2)
-                                        <td>{{ $row->location_code ?? '-' }}</td>
-                                        <td>{{ $row->location_codes ?? '-' }}</td>
+                                        {{-- <td>{{ $row->location_code ?? '-' }}</td>
+                                        <td>{{ $row->location_codes ?? '-' }}</td> --}}
                                     @endif
 									<td>
-                                        <img src="{{ asset('storage/Image/' . $row->product_image) }}" width="50" height="50">
+                                        <img src="{{ asset('storage/Image/' . $row->ProductImg) }}" width="50" height="50">
                                     </td>
-                                    <td>{{ $row->product_name }}</td>
-                                    <td>{!! DNS2D::getBarCodeSVG($row->product_code,'QRCODE') !!}
-                                    p-{{$row->product_code}}</td>
-                                    <td>{{ $row->remaining_quantity }}</td>
-                                    <td>{{ $row->weight_of_product }}</td>
                                     @if (Auth::user()->role == 1)
-									<td><a href="{{ URL::to('/edit_product/' . $row->id) }}" class="text-info me-10" data-bs-toggle="tooltip" data-bs-original-title="Edit">
-											<i class="ti-marker-alt"></i>
-										</a>
-										<button data-href="{{ URL::to('delete_product/' . $row->id) }}" class="text-danger sa-params" data-bs-original-title="Delete" data-bs-toggle="tooltip" alt="alert">
-											<i class="ti-trash" alt="alert"></i>
-										</button>
-									</td>
+										<td>
+											<!-- Add any action buttons or links here -->
+                    						<a href="{{ URL::to('/edit_product/' . $row->ProductID) }}">Edit</a>
+											<form action="{{ route('delete_product', $row->ProductID) }}" method="POST" style="display:inline;">
+												@csrf
+												@method('DELETE')
+												<button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+											</form>
+										</td>
                                     @endif
                                 </tr>
                             @endforeach
