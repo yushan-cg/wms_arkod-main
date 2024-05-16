@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Partner extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,8 @@ class Customer extends Model
     return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getUsers()
-    {
-    return $this->users()->select('id', 'name')->get();
-    }
-
     public function products()
     {
     return $this->hasMany(Product::class);
     }
-
 }

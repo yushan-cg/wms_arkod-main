@@ -8,12 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Restock;
-use App\Models\ProductRequest;
-
 
 
 class ProductController extends Controller
@@ -28,48 +25,55 @@ class ProductController extends Controller
      */
     public function ProductList(Request $request)
     {
-        // get the authenticated user
+        // Get the authenticated user
         $user = auth()->user();
-        $user_id = auth()->user()->id;
+        $user_id = $user->id;
 
-        // check if the authenticated user is an admin (role 1)
+        // Initialize the base query
+        $query = DB::table('products')
+            ->leftJoin('customers', 'products.customer_id', '=', 'customers.id')
+            ->leftJoin('users', 'products.uid', '=', 'users.id')
+            ->select(
+                'products.id',
+                'products.name as product_name',
+                'products.SKU',
+                'products.product_desc',
+                'products.expired_date',
+                'products.Img',
+                'products.UOM',
+                'products.weight_per_unit',
+                'products.updated_at',
+                'customers.name as customer_name',
+                'users.name as user_name'
+            );
+
+        // Check user role and modify the query accordingly
         if ($user->role == 1) {
-            // if admin, get all products from the database
-            $list = DB::table('products')
-                ->leftJoin('customers', 'products.CID', '=', 'customers.CustomerID') // Ensure correct field names
-                ->select('products.ProductID', 'products.ProductName', 'customers.CustomerName', 'products.SKU', 'products.ProductLabel', 
-                        'products.ProductExpiredDate', 'products.ProductImg', 'products.UOM', 'products.WeightPerUnit', 
-                        'products.updated_at')
-                ->get();
-
+            // Admin: get all products
+            $list = $query->get();
+        } elseif ($user->role == 2) {
+            // Picker: get products owned by the user
+            //$list = $query->where('products.uid', $user_id)->get();  WRONG!! picker not associated with any product
+        } elseif ($user->role == 3) {
+            // Customer: get products owned by the user (simplified selection)
+            $list = $query->where('products.uid', $user_id)->get();
         } else {
-            // if not admin, get products owned by the user
-            // if ($user->role == 3) {
-            //     // if the user is of role 3, get products owned by the user with role 3
-            //     $list = DB::table('products')
-            //         ->join('quantities', 'products.id', '=', 'quantities.product_id')
-            //         ->join('companies', 'products.company_id', '=', 'companies.id')
-            //         ->join('weights', 'products.id', '=', 'weights.product_id')
-            //         ->select('products.id' ,'products.product_code', 'weights.weight_of_product', 'companies.company_name', 'products.product_name', 'products.product_desc', 'products.item_per_carton', 'products.carton_quantity', 'quantities.total_quantity', 'quantities.remaining_quantity', 'products.weight_per_item', 'products.weight_per_carton', 'products.product_dimensions', 'products.product_image', 'products.date_to_be_stored')
-            //         ->where('products.user_id', $user_id)
-            //         ->get();
-            // } else {
-            //     // if the user is not an admin or of role 3, get products owned by the user
-            //     $list = DB::table('products')->where('user_id', $user->id)->get();
-            // }
+            // Handle case where user has an unknown role
+            abort(403, 'Unauthorized action.');
         }
-        //dd($list);
-        // return the view with the list of products
+
+        // Return the view with the list of products
         return view('backend.product.list_product', compact('list'));
     }
 
-    public function getUsers(Request $request)
-    {
-        $customer = Customer::find($request->CustomerID);
-        $users = $company->users;
+    //use getUsers when update or edit a form
+    // public function getUsers(Request $request)
+    // {
+    //     $customer = Customer::find($request->customer_id);
+    //     $users = $customer->users;
 
-        return response()->json($users);
-    }
+    //     return response()->json($users);
+    // }
 
 
     /**
@@ -77,21 +81,15 @@ class ProductController extends Controller
      */
     public function ProductAdd(Request $request)
     {
-        // Get all companies
-        $companies = Company::all();
-
-        // Get all the racks
-        $racks = Rack::all();
-
-        // Get all the floors
-        $floors = Floor::all();
+        // Get all partners - to be selected as owner of this product
+        $partners = Partner::all();
 
         // Get the selected company's ID
         $company_id = $request->input('company');
 
         // Get the users associated with the selected company
         $users = DB::table('users')
-            ->join('companies', 'users.id', '=', 'companies.user_id')
+            ->join('companies', 'users.id', '=', 'companies.uid')
             ->where('companies.id', $company_id)
             ->select('users.id', 'users.name')
             ->get();
