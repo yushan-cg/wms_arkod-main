@@ -43,9 +43,6 @@
 								<th>Product Name</th>
 								<th>Description</th>
 								<th>Expired Date</th>
-								@if (Auth::user()->role == 1 || Auth::user()->role == 2)
-								{{-- <th>Location Code</th> --}}
-								@endif
 								<th>Product Image</th>
 								@if (Auth::user()->role == 1)
                                 <th>Action</th>
@@ -57,26 +54,25 @@
 
                                 <tr>
 									<td>{{ $loop->iteration }}</td> <!-- Billing number -->
-                                    <td>{{ $row->CustomerName }}</td>
+                                    <td>{{ $row->partner_name }}</td>
 									<td>{{ $row->SKU }}</td>
-									<td>{{ $row->ProductName }}</td>
-									<td>{{ $row->ProductLabel }}</td>
-									<td>{{ $row->ProductExpiredDate }}</td>
-                                    @if (Auth::user()->role == 1 || Auth::user()->role == 2)
-                                        {{-- <td>{{ $row->location_code ?? '-' }}</td>
-                                        <td>{{ $row->location_codes ?? '-' }}</td> --}}
-                                    @endif
+									<td>{{ $row->product_name }}</td>
+									<td>{{ $row->product_desc }}</td>
+									<td>{{ $row->expired_date }}</td>
 									<td>
-                                        <img src="{{ asset('storage/Image/' . $row->ProductImg) }}" width="50" height="50">
+                                        <img src="{{ asset('storage/Image/' . $row->Img) }}" width="50" height="50">
                                     </td>
                                     @if (Auth::user()->role == 1)
 										<td>
 											<!-- Add any action buttons or links here -->
-                    						<a href="{{ URL::to('/edit_product/' . $row->ProductID) }}">Edit</a>
-											<form action="{{ route('delete_product', $row->ProductID) }}" method="POST" style="display:inline;">
+                    						<a href="{{ URL::to('/view_product/' . $row->id) }}" class="btn btn-info btn-sm">View</a>
+                    						<a href="{{ URL::to('/edit_product/' . $row->id) }}" class="btn btn-primary btn-sm">Edit</a>
+											<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
+												Delete
+											</button>
+											<form id="delete-product-form-{{ $row->id }}" action="{{ route('delete_product', $row->id) }}" method="POST" style="display: none;">
 												@csrf
 												@method('DELETE')
-												<button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
 											</form>
 										</td>
                                     @endif
