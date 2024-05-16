@@ -65,7 +65,6 @@
                                     @if (Auth::user()->role == 1)
 										<td>
 											<!-- Add any action buttons or links here -->
-                    						<a href="{{ URL::to('/view_product/' . $row->id) }}" class="btn btn-info btn-sm">View</a>
                     						<a href="{{ URL::to('/edit_product/' . $row->id) }}" class="btn btn-primary btn-sm">Edit</a>
 											<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
 												Delete

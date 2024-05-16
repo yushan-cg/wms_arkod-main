@@ -24,7 +24,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function ProductList(Request $request)
+    public function listProduct(Request $request)
     {
         // Get the authenticated user
         $user = auth()->user();
@@ -68,6 +68,39 @@ class ProductController extends Controller
     }
 
     /**
+     * Display a selected product.
+     */
+    public function viewProduct($id)
+    {
+        // Retrieve the product by id
+        $product = DB::table('products')
+            ->leftJoin('users', 'products.uid', '=', 'users.id')
+            ->leftJoin('partners', 'products.partner_id', '=', 'partners.id')
+            ->select(
+                'products.id',
+                'products.name as product_name',
+                'products.SKU',
+                'products.product_desc',
+                'products.expired_date',
+                'products.Img',
+                'products.UOM',
+                'products.weight_per_unit',
+                'products.updated_at',
+                'partners.name as partner_name',
+                'users.name as user_name'
+            )
+            ->where('products.id', $id)
+            ->first();
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // Return the view with the product details
+        return view('backend.product.view_product', compact('product'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function ProductAdd(Request $request)
@@ -88,8 +121,6 @@ class ProductController extends Controller
         // Return the view with the partners, users, and products
         return view('backend.product.create_product', compact('partners', 'users', 'allProducts'));
     }
-
-
 
     /**
      * Store a newly created resource in storage.

@@ -25,7 +25,7 @@
   <header class="main-header">
 	<div class="d-flex align-items-center logo-box justify-content-start">	
 		<!-- Logo -->
-		<a href="{{ URL::to('/home') }}" class="logo">
+		<a href="{{ route('home') }}" class="logo">
 		  <!-- logo-->
 		  <div class="logo-mini w-50">
 		  <span class="light-logo"><img src="{{ asset('assets/images/arkod logo.png') }}" alt="logo"></span>

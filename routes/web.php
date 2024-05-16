@@ -16,30 +16,33 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/homepage', [App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
+Route::get('/homehome', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // User management
-Route::get('/user_list', [UsermanagementController::class, 'UserList'])->name('user.index');
-Route::get('/edit_user/{id}', [UsermanagementController::class, 'UserEdit']);
-Route::post('/update_user/{id}', [UsermanagementController::class, 'UserUpdate']);
-Route::get('/delete_user/{id}', [UsermanagementController::class, 'UserDelete']);
+Route::prefix('user')->group(function () {
+    Route::get('/list', [UsermanagementController::class, 'UserList'])->name('user.index');
+    Route::get('/edit/{id}', [UsermanagementController::class, 'UserEdit']);
+    Route::post('/update/{id}', [UsermanagementController::class, 'UserUpdate']);
+    Route::get('/delete/{id}', [UsermanagementController::class, 'UserDelete']);
+});
 
 // Admin side product management
-Route::get('list_product', [ProductController::class, 'ProductList'])->name('product.index');
-Route::get('/edit_product/{id}', [ProductController::class, 'ProductEdit']);
-Route::delete('/delete_product/{id}', [ProductController::class, 'ProductDelete'])->name('delete_product');
-Route::get('/add_product', [ProductController::class, 'ProductAdd'])->name('productadd');
-Route::post('/insert_product', [ProductController::class, 'ProductInsert']);
-Route::post('/update_product/{id}', [ProductController::class, 'ProductUpdate']);
-Route::get('/qr_product',[ProductController::class, 'ProductQR']);
-Route::get('/getProductQRInfo/{productCode}',[ProductController::class, 'getProductQRInfo']);
+Route::prefix('product')->group(function () {
+    Route::get('/list', [ProductController::class, 'listProduct'])->name('product.index');
+    Route::get('/add', [ProductController::class, 'addProduct'])->name('add_product');
+    Route::post('/insert', [ProductController::class, 'insertProduct']);
+    Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit_product');
+    Route::post('/update/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete_product');
+    Route::get('/qr',[ProductController::class, 'ProductQR']);
+    Route::get('/getQRInfo/{productCode}',[ProductController::class, 'getProductQRInfo']);
+});
 
-//Forget Password
-Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Password management
+Route::prefix('password')->group(function () {
+    Route::get('/forget', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+    Route::post('/forget', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+    Route::get('/reset/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+    Route::post('/reset', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+});
 
-//Product management - admin
