@@ -8,31 +8,31 @@
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('assets/images/favicon.ico.png') }}">
 
-	<!-- Vendors Style-->
-	<link rel="stylesheet" href="{{ asset('assets/css/vendors_css.css') }}">
-	  
-	<!-- Style-->  
-	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/skin_color.css') }}">
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{{ asset('assets/css/vendors_css.css') }}">
+      
+    <!-- Style-->  
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/skin_color.css') }}">
      
   </head>
 
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed sidebar-collapse">
-	
+    
 <div class="wrapper">
-	<div id="loader"></div>
-	
+    <div id="loader"></div>
+    
   <header class="main-header">
-	<div class="d-flex align-items-center logo-box justify-content-start">	
-		<!-- Logo -->
-		<a href="{{ route('home') }}" class="logo">
-		  <!-- logo-->
-		  <div class="logo-mini w-50">
-		  <span class="light-logo"><img src="{{ asset('assets/images/arkod logo.png') }}" alt="logo"></span>
-			  <span class="dark-logo"><img src="{{ asset('assets/images/arkod logo.png') }}" alt="logo"></span>
-		  </div>
-		  <div class="logo-lg">
-		  @if (Auth::user()->role == 1)
+    <div class="d-flex align-items-center logo-box justify-content-start">    
+        <!-- Logo -->
+        <a href="{{ route('home') }}" class="logo">
+          <!-- logo-->
+          <div class="logo-mini w-50">
+          <span class="light-logo"><img src="{{ asset('assets/images/arkod logo.png') }}" alt="logo"></span>
+              <span class="dark-logo"><img src="{{ asset('assets/images/arkod logo.png') }}" alt="logo"></span>
+          </div>
+          <div class="logo-lg">
+          @if (Auth::user()->role == 1)
             <span class="brand-text font-weight-light">Admin Panel</span>
         @endif
         @if (Auth::user()->role == 2)
@@ -41,12 +41,359 @@
         @if (Auth::user()->role == 3)
             <span class="brand-text font-weight-light">Customer Panel</span>
         @endif
-		  </div>
-		</a>	
-	</div>  
+          </div>
+        </a>    
+    </div>  
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
+      <div class="app-menu">
+        <ul class="header-megamenu nav">
+            <li class="btn-group nav-item">
+                <a href="#" class="waves-effect waves-light nav-link push-btn btn-primary-light" data-toggle="push-menu" role="button">
+                    <i data-feather="align-left"></i>
+                </a>
+            </li>
+            <li class="btn-group d-lg-inline-flex d-none">
+                <div class="app-menu">
+                    <div class="search-bx mx-5">
+                        <form>
+                            <div class="input-group">
+                              <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon3">
+                              <div class="input-group-append">
+                                <button class="btn" type="submit" id="button-addon3"><i data-feather="search"></i></button>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul> 
+      </div>
+        
+      <div class="navbar-custom-menu r-side">
+        <ul class="nav navbar-nav">    
+            <li class="btn-group nav-item d-lg-inline-flex d-none">
+                <a href="#" data-provide="fullscreen" class="waves-effect waves-light nav-link full-screen btn-warning-light" title="Full Screen">
+                    <i data-feather="maximize"></i>
+                </a>
+            </li>
+          <!-- Notifications -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="waves-effect waves-light dropdown-toggle btn-info-light" data-bs-toggle="dropdown" title="Notifications">
+              <i data-feather="bell"></i>
+            </a>
+            <ul class="dropdown-menu animated bounceIn">
+
+              <li class="header">
+                <div class="p-20">
+                    <div class="flexbox">
+                        <div>
+                            <h4 class="mb-0 mt-0">Notifications</h4>
+                        </div>
+                        <div>
+                            <a href="#" class="text-danger">Clear All</a>
+                        </div>
+                    </div>
+                </div>
+              </li>
+
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu sm-scrol">
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-info"></i> Curabitur id eros quis nunc suscipit blandit.
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-warning"></i> Duis malesuada justo eu sapien elementum, in semper diam posuere.
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-danger"></i> Donec at nisi sit amet tortor commodo porttitor pretium a erat.
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-shopping-cart text-success"></i> In gravida mauris et nisi
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-danger"></i> Praesent eu lacus in libero dictum fermentum.
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-primary"></i> Nunc fringilla lorem 
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-success"></i> Nullam euismod dolor ut quam interdum, at scelerisque ipsum imperdiet.
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer">
+                  <a href="#">View all</a>
+              </li>
+            </ul>
+          </li>    
+          
+          <!-- Control Sidebar Toggle Button -->
+          <li class="btn-group nav-item">
+              <a href="#" data-toggle="control-sidebar" title="Setting" class="waves-effect full-screen waves-light btn-danger-light">
+                <i data-feather="settings"></i>
+              </a>
+          </li>
+          
+          <!-- User Account-->
+          <li class="dropdown user user-menu">
+            <a href="#" class="waves-effect waves-light dropdown-toggle w-auto l-h-12 bg-transparent py-0 no-shadow" data-bs-toggle="dropdown" title="User">
+                <img src="{{ asset('assets/images/avatar/avatar-1.png') }}" class="avatar rounded-10 bg-primary-light h-40 w-40" alt="" />
+            </a>
+            <ul class="dropdown-menu animated flipInX">
+              <li class="user-body">
+                 <a class="dropdown-item" href="extra_profile.html"><i class="ti-user text-muted me-2"></i> Profile</a>
+                 <a class="dropdown-item" href="mailbox.html"><i class="ti-settings text-muted me-2"></i> Email</a>
+                 <div class="dropdown-divider"></div>
+                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ti-lock text-muted me-2"></i>Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+              </li>
+            </ul>
+          </li></ul>
+      </div>
+    </nav>
+  </header>
+    <!-- Main Sidebar Container -->
+    @include('backend.Layouts.sidebar')
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+      <div class="container-full">
+@yield('content')
+      </div>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+      &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://arkod.com.my/">Arkod Smart Logitech</a>. All Rights Reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar">
+      
+    <div class="rpanel-title"><span class="pull-right btn btn-circle btn-danger" data-toggle="control-sidebar"><i class="ion ion-close text-white"></i></span> </div>  <!-- Create the tabs -->
+    <ul class="nav nav-tabs control-sidebar-tabs">
+      <li class="nav-item"><a href="#control-sidebar-home-tab" data-bs-toggle="tab" class="active"><i class="mdi mdi-message-text"></i></a></li>
+      <li class="nav-item"><a href="#control-sidebar-settings-tab" data-bs-toggle="tab"><i class="mdi mdi-playlist-check"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane active" id="control-sidebar-home-tab">
+          <div class="flexbox">
+            <a href="javascript:void(0)" class="text-grey">
+                <i class="ti-more"></i>
+            </a>    
+            <p>Users</p>
+            <a href="javascript:void(0)" class="text-end text-grey"><i class="ti-plus"></i></a>
+          </div>
+          <div class="lookup lookup-sm lookup-right d-none d-lg-block">
+            <input type="text" name="s" placeholder="Search" class="w-p100">
+          </div>
+          <div class="media-list media-list-hover mt-20">
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-success" href="#">
+                <img src="{{ asset('assets/images/avatar/1.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Tyler</strong></a>
+                </p>
+                <p>Praesent tristique diam...</p>
+                  <span>Just now</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-danger" href="#">
+                <img src="{{ asset('assets/images/avatar/2.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Luke</strong></a>
+                </p>
+                <p>Cras tempor diam ...</p>
+                  <span>33 min ago</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-warning" href="#">
+                <img src="{{ asset('assets/images/avatar/3.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Evan</strong></a>
+                </p>
+                <p>In posuere tortor vel...</p>
+                  <span>42 min ago</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-primary" href="#">
+                <img src="{{ asset('assets/images/avatar/4.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Evan</strong></a>
+                </p>
+                <p>In posuere tortor vel...</p>
+                  <span>42 min ago</span>
+              </div>
+            </div>            
+            
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-success" href="#">
+                <img src="{{ asset('assets/images/avatar/1.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Tyler</strong></a>
+                </p>
+                <p>Praesent tristique diam...</p>
+                  <span>Just now</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-danger" href="#">
+                <img src="{{ asset('assets/images/avatar/2.jpg') }}"  alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Luke</strong></a>
+                </p>
+                <p>Cras tempor diam ...</p>
+                  <span>33 min ago</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-warning" href="#">
+                <img src="{{ asset('assets/images/avatar/3.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Evan</strong></a>
+                </p>
+                <p>In posuere tortor vel...</p>
+                  <span>42 min ago</span>
+              </div>
+            </div>
+
+            <div class="media py-10 px-0">
+              <a class="avatar avatar-lg status-primary" href="#">
+                <img src="{{ asset('assets/images/avatar/4.jpg') }}" alt="...">
+              </a>
+              <div class="media-body">
+                <p class="fs-16">
+                  <a class="hover-primary" href="#"><strong>Evan</strong></a>
+                </p>
+                <p>In posuere tortor vel...</p>
+                  <span>42 min ago</span>
+              </div>
+            </div>
+              
+          </div>
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+          <div class="flexbox">
+            <a href="javascript:void(0)" the="text-grey">
+                <i class="ti-more"></i>
+            </a>    
+            <p>Todo List</p>
+            <a href="javascript:void(0)" the="text-end text-grey"><i class="ti-plus"></i></a>
+          </div>
+        <ul class="todo-list mt-20">
+            <li class="py-15 px-5 by-1">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_1" class="filled-in">
+              <label for="basic_checkbox_1" class="mb-0 h-15"></label>
+              <!-- todo text -->
+              <span class="text-line">Nulla vitae purus</span>
+              <!-- Emphasis label -->
+              <small class="badge bg-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+              <!-- General tools such as edit or delete-->
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash-o"></i>
+              </div>
+            </li>
+            <li class="py-15 px-5">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_2" class="filled-in">
+              <label for="basic_checkbox_2" class="mb-0 h-15"></label>
+              <span class="text-line">Phasellus interdum</span>
+              <small class="badge bg-info"><i class="fa fa-clock-o"></i> 4 hours</small>
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash-o"></i>
+              </div>
+            </li>
+            <li class="py-15 px-5 by-1">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_3" class="filled-in">
+              <label for="basic_checkbox_3" class="mb-0 h-15"></label>
+              <span class="text-line">Quisque sodales</span>
+              <small class="badge bg-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash-o"></i>
+              </div>
+            </li>
+            <li class="py-15 px-5">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_4" class="filled-in">
+              <label for="basic_checkbox_4" class="mb-0 h-15"></label>
+              <span class="text-line">Proin nec mi porta</span>
+              <small class="badge bg-success"><i class="fa fa-clock-o"></i> 3 days</small>
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i the="fa fa-trash-o"></i>
+              </div>
+            </li>
+            <li class="py-15 px-5 by-1">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_5" class="filled-in">
+              <label for="basic_checkbox_5" class="mb-0 h-15"></label>
+              <span class="text-line">Maecenas scelerisque</span>
+              <small class="badge bg-primary"><i class="fa fa-clock-o"></i> 1 week</small>
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash-o"></i>
+              </div>
+            </li>
+            <li class="py-15 px-5">
+              <!-- checkbox -->
+              <input type="checkbox" id="basic_checkbox_6" class="filled-in">
+              <label for="basic_checkbox_6" class="mb-0 h-15"></label>
+              <span class="text-line">Vivamus nec orci</span>
+              <small class="badge bg-info"><i class="fa fa-clock-o"></i> 1 month</small>
+              <div class="tools">
+                <i class="fa fa-edit"></i>
+                <i class="fa fa-trash-o"></i>
+              </div>
+            </li>
 	  <div class="app-menu">
 		<ul class="header-megamenu nav">
 			<li class="btn-group nav-item">

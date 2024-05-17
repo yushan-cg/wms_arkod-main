@@ -21,6 +21,18 @@ class ProductController extends Controller
         $this->middleware('auth');
     }
 
+
+    // Validation rules for both store and update methods
+    private $validationRules = [
+        'product_name' => 'required|string|max:255',
+        'SKU' => 'required|string|max:255',
+        'product_desc' => 'string',
+        'expired_date' => 'date',
+        'UOM' => 'required|string|max:255',
+        'weight_per_unit' => 'numeric',
+        'partner_id' => 'required',
+    ];
+
     /**
      * Display a listing of the resource.
      */
@@ -68,64 +80,17 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a selected product.
-     */
-    public function viewProduct($id)
-    {
-        // Retrieve the product by id
-        $product = DB::table('products')
-            ->leftJoin('users', 'products.uid', '=', 'users.id')
-            ->leftJoin('partners', 'products.partner_id', '=', 'partners.id')
-            ->select(
-                'products.id',
-                'products.name as product_name',
-                'products.SKU',
-                'products.product_desc',
-                'products.expired_date',
-                'products.Img',
-                'products.UOM',
-                'products.weight_per_unit',
-                'products.updated_at',
-                'partners.name as partner_name',
-                'users.name as user_name'
-            )
-            ->where('products.id', $id)
-            ->first();
-
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product not found.');
-        }
-
-        // Return the view with the product details
-        return view('backend.product.view_product', compact('product'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
-    public function ProductAdd(Request $request)
+    public function addProduct(Request $request)
     {
-        // Get all partners associated with the authenticated user
-        $partners = Partner::where('user_id', auth()->user()->id)->get();
-
-        // Get the users associated with the selected partner
-        $users = DB::table('users')
-            ->join('partners', 'users.id', '=', 'partners.user_id')
-            ->where('partners.id', $partner_id)
-            ->select('users.id', 'users.name')
-            ->get();
-
-        // Get all products
-        $allProducts = DB::table('products')->get();
-
-        // Return the view with the partners, users, and products
-        return view('backend.product.create_product', compact('partners', 'users', 'allProducts'));
+        return view('backend.product.create_product');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function ProductInsert(Request $request)
+    public function insertProduct(Request $request)
     {
         $validatedData = $request->validate([
             'company_id' => 'required',
@@ -178,65 +143,68 @@ class ProductController extends Controller
         }
     }
 
-    public function ProductEdit($id)
+    public function editProduct($id)
     {
-        $edit = DB::table('products')
-                ->leftJoin('partners', 'products.CID', '=', 'partners.PartnerID') // Ensure correct field names
-                ->select('products.ProductID', 'products.ProductName', 'partners.PartnerName', 'products.SKU', 'products.ProductLabel', 'products.ProductExpiredDate', 'products.ProductImg', 'products.UOM', 'products.WeightPerUnit')
-                ->where('products.ProductID', $id)
-                ->first();
+        // Initialize the base query
+        $query = DB::table('products')
+            ->leftJoin('users', 'products.uid', '=', 'users.id')
+            ->leftJoin('partners', 'products.partner_id', '=', 'partners.id')
+            ->select(
+                'products.id',
+                'products.name as product_name',
+                'products.SKU',
+                'products.product_desc',
+                'products.expired_date',
+                'products.Img',
+                'products.UOM',
+                'products.weight_per_unit',
+                'products.updated_at',
+                'partners.name as partner_name',
+                'users.name as user_name'
+            );
+
+        $edit = $query->where('products.id', $id)->first();
         $partners = Partner::all();
 
         return view('backend.product.edit_product', compact('edit', 'partners'));
     }
 
-    public function ProductUpdate(Request $request, $id)
+    public function updateProduct(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'company_id' => 'required',
-            'product_name' => 'required|string|max:255',
-            'product_desc' => 'required|string',
-            'weight_per_item' => 'required|numeric',
-            'weight_per_carton' => 'required|numeric',
-            'product_price' => 'required|numeric',
-            'product_dimensions' => 'required|string|max:255',
-            'date_to_be_stored' => 'required|date',
-            'product_image' => 'image|max:2048'
-        ]);
+        // Validate the request data based on the defined rules
+        $validated = $request->validate($this->validationRules);
 
+        // Prepare the data for updating
         $data = [
-            'company_id' => $request->company_id,
             'product_name' => $request->product_name,
+            'SKU' => $request->SKU,
             'product_desc' => $request->product_desc,
-            'weight_per_item' => $request->weight_per_item,
-            'weight_per_carton' => $request->weight_per_carton,
-            'product_price' => $request->product_price,
-            'product_dimensions' => $request->product_dimensions,
-            'date_to_be_stored' => $request->date_to_be_stored,
+            'expired_date' => $request->expired_date,
+            'UOM' => $request->UOM,
+            'weight_per_unit' => $request->weight_per_unit,
             'updated_at' => now(),
+            'partner_id' => $request->partner_id,
         ];
 
-        // Check if image is uploaded
-        if ($request->hasFile('product_image')) {
-            $file = $request->file('product_image');
+        // Handle file upload
+        if ($request->hasFile('Img')) {
+            $file = $request->file('Img');
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/Image', $filename);
-            $data['product_image'] = $filename;
+            $data['Img'] = $filename;
 
             // Move the file to the desired folder
             Storage::move('public/' . $filename, 'public/Image/' . $filename);
         }
 
+        // Update the product in the database
         $update = DB::table('products')->where('id', $id)->update($data);
 
+        // Check if the update was successful
         if ($update) {
             return Redirect()->route('product.index')->with('success', 'Product Updated Successfully!');
         } else {
-            $notification = array(
-                'message' => 'error',
-                'alert-type' => 'error'
-            );
-            return Redirect()->route('product.index')->with($notification);
+            return Redirect()->route('product.index')->with('error', 'Failed to update product.');
         }
     }
 
