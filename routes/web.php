@@ -32,7 +32,7 @@ Route::prefix('product')->group(function () {
     Route::get('/add', [ProductController::class, 'addProduct'])->name('add_product');
     Route::post('/insert', [ProductController::class, 'insertProduct']);
     Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit_product');
-    Route::post('/update/{id}', [ProductController::class, 'updateProduct'])->name('update_product');
+    Route::patch('/update/{id}', [ProductController::class, 'updateProduct'])->name('update_product');
     Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete_product');
     Route::get('/qr',[ProductController::class, 'ProductQR']);
     Route::get('/getQRInfo/{productCode}',[ProductController::class, 'getProductQRInfo']);

@@ -56,6 +56,7 @@ class ProductController extends Controller
                 'products.UOM',
                 'products.weight_per_unit',
                 'products.updated_at',
+                'partners.id as partner_id',
                 'partners.name as partner_name',
                 'users.name as user_name'
             );
@@ -64,19 +65,21 @@ class ProductController extends Controller
         if ($user->role == 1) {
             // Admin: get all products
             $list = $query->get();
+            $partners = Partner::all();
         } elseif ($user->role == 2) {
             // Picker: get products owned by the user
             //$list = $query->where('products.uid', $user_id)->get();  WRONG!! picker not associated with any product
         } elseif ($user->role == 3) {
             // Partner: get products owned by the user (simplified selection)
             $list = $query->where('products.uid', $user_id)->get();
+            $partners = Partner::where('uid', $user_id)->get();
         } else {
             // Handle case where user has an unknown role
             abort(403, 'Unauthorized action.');
         }
 
         // Return the view with the list of products
-        return view('backend.product.list_product', compact('list'));
+        return view('backend.product.list_product', compact('list', 'partners'));
     }
 
     /**
@@ -95,18 +98,6 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'company_id' => 'required',
             'product_name' => 'required|string|max:255',
-            'product_desc' => 'required|string',
-            'weight_per_item' => 'required|numeric',
-            'weight_per_carton' => 'required|numeric',
-            'product_dimensions' => 'required|string|max:255',
-            'date_to_be_stored' => 'required|date',
-            'carton_quantity' => 'required|integer',
-            'product_price' => 'required|numeric',
-            'item_per_carton' => 'required|integer',
-            'product_code' => 'required|string',
-            'product_image' => 'required|image|max:2048',
-            'rack_id' => 'required_without:floor_id',
-            'floor_id' => 'required_without:rack_id'
         ]);
 
         $partner = DB::table('partners')
@@ -116,18 +107,6 @@ class ProductController extends Controller
         $data = [
             'user_id' => $Partner->UID,
             'partner_id' => $request->PartnerID,
-            'product_name' => $request->product_name,
-            'product_desc' => $request->product_desc,
-            'product_code' => $request->product_code,
-            'item_per_carton' => $request->item_per_carton,
-            'carton_quantity' => $request->carton_quantity,
-            'product_price' => $request->product_price,
-            'weight_per_item' => $request->weight_per_item,
-            'weight_per_carton' => $request->weight_per_carton,
-            'product_dimensions' => $request->product_dimensions,
-            'rack_id' => $request->rack_id,
-            'floor_id' => $request->floor_id,
-            'date_to_be_stored' => $request->date_to_be_stored,
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -159,33 +138,35 @@ class ProductController extends Controller
                 'products.UOM',
                 'products.weight_per_unit',
                 'products.updated_at',
+                'partners.id as partner_id',
                 'partners.name as partner_name',
-                'users.name as user_name'
+                'users.name as user_name',
+                'users.id as uid'
             );
 
         $edit = $query->where('products.id', $id)->first();
-        $partners = Partner::all();
+        $partners = DB::table('partners')->where('partners.uid', 'uid');
 
         return view('backend.product.edit_product', compact('edit', 'partners'));
     }
 
     public function updateProduct(Request $request, $id)
     {
-        // Validate the request data based on the defined rules
+        // Validate the incoming request data
         $validated = $request->validate($this->validationRules);
+        \Log::info('Validated Data', $validated);
 
         // Prepare the data for updating
         $data = [
-            'product_name' => $request->product_name,
-            'SKU' => $request->SKU,
-            'product_desc' => $request->product_desc,
-            'expired_date' => $request->expired_date,
-            'UOM' => $request->UOM,
-            'weight_per_unit' => $request->weight_per_unit,
+            'product_name' => $validated->product_name,
+            'SKU' => $validated->SKU,
+            'product_desc' => $validated->product_desc,
+            'expired_date' => $validated->expired_date,
+            'UOM' => $validated->UOM,
+            'weight_per_unit' => $validated->weight_per_unit,
             'updated_at' => now(),
-            'partner_id' => $request->partner_id,
+            'partner_id' => $validated->partner_id,
         ];
-
         // Handle file upload
         if ($request->hasFile('Img')) {
             $file = $request->file('Img');
@@ -194,17 +175,23 @@ class ProductController extends Controller
             $data['Img'] = $filename;
 
             // Move the file to the desired folder
-            Storage::move('public/' . $filename, 'public/Image/' . $filename);
+            Storage::move('public/' . $filename, 'public/image/' . $filename);
         }
+        \Log::info('Update Data', $data);
+        DB::beginTransaction();
+        try {
+            $update = DB::table('products')->where('id', $id)->update($data);
+            DB::commit();
 
-        // Update the product in the database
-        $update = DB::table('products')->where('id', $id)->update($data);
-
-        // Check if the update was successful
-        if ($update) {
-            return Redirect()->route('product.index')->with('success', 'Product Updated Successfully!');
-        } else {
-            return Redirect()->route('product.index')->with('error', 'Failed to update product.');
+            if ($update) {
+                return redirect()->route('product.index')->with('success', 'Product Updated Successfully!');
+            } else {
+                return redirect()->route('product.index')->with('error', 'Failed to update product.');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Update Error', ['error' => $e->getMessage()]);
+            return redirect()->route('product.index')->with('error', 'Failed to update product.');
         }
     }
 

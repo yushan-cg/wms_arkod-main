@@ -6,19 +6,25 @@
 </div>
 <div class="form-group">
     <label for="SKU">SKU</label>
-    <input type="text" class="form-control" id="SKU" name="SKU" required>
+    <input type="text" class="form-control" id="SKU" name="SKU" placeholder="Enter product SKU" value="{{ $row->SKU }}" required>
 </div>
 <div class="form-group">
     <label for="product_desc">Description</label>
-    <textarea class="form-control" id="product_desc" name="product_desc" required></textarea>
+    <textarea class="form-control" id="product_desc" name="product_desc" placeholder="Enter product description (optional)" value="{{ $row->product_desc }}"></textarea>
 </div>
 <div class="form-group">
-    <label for="product_price">Price</label>
-    <input type="number" class="form-control" id="product_price" name="product_price" required>
+    <label for="expired_date">Expired date</label>
+    <input type="text" class="form-control" id="expired_date" name="expired_date" placeholder="Enter product expired date" value="{{ $row->expired_date }}">
 </div>
 <div class="form-group">
-    <label for="product_image">Product Image</label>
-    <input type="file" class="form-control-file" id="product_image" name="product_image">
+    <label for="UOM">Unit of Measurement (UOM)</label>
+    <input type="text" class="form-control" id="UOM" name="UOM" placeholder="Enter product UOM" value="{{ $row->UOM }}">
 </div>
-
-<!-- Repeat this structure for each field -->
+<div class="form-group">
+    <label for="weight_per_unit">Weight per unit (kg)</label>
+    <input type="text" class="form-control" id="weight_per_unit" name="weight_per_unit" placeholder="Enter product weight per unit in kg" value="{{ $row->weight_per_unit }}">
+</div>
+<div class="form-group">
+    <label for="product_img">Product Image</label>
+    <input type="file" class="form-control-file" id="product_img" name="Img">
+</div>

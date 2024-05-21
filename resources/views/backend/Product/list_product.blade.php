@@ -45,7 +45,7 @@
 								<td>{{ $row->product_desc }}</td>
 								<td>{{ $row->expired_date }}</td>
 								<td>
-									<img src="{{ asset('storage/Image/' . $row->Img) }}" width="50" height="50">
+									<img src="{{ asset('assets/images/' . $row->Img) }}" width="50" height="50">
 								</td>
 								@if (Auth::user()->role == 1)
 									<td>
@@ -59,11 +59,19 @@
 											modalTitle="Edit Product" 
 											formId="editProductForm{{ $row->id }}" 
 											formAction="{{ route('update_product', $row->id) }}" 
-											submitButton="Edit">
-											@method('PATCH')
+											submitButton="Save edit">
 											<!-- Form fields -->
 											<div class="modal-body">
 												@include('backend.product.edit_product', ['product' => $row])
+												<div class="form-group">
+													<label for="partner_id">Select the Customer/Company of the product</label>
+													<select class="form-control" id="partner_id" name="partner_id" required>
+														<option value="">Select Customer/Company</option>
+														@foreach($partners as $partner)
+															<option value="{{ $partner->id }}" {{ $partner->id == $row->partner_id ? 'selected' : '' }}>{{ $partner->name }}</option>
+														@endforeach
+													</select>
+												</div>
 											</div>
 										</x-modal-form>
 										<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
