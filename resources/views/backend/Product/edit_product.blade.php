@@ -1,5 +1,4 @@
 <!-- Form fields -->
-<input type="hidden" name="id" id="product_id{{ $row->id }}">
 <div class="form-group">
     <label for="product_name{{ $row->id }}">Product Name</label>
     <input type="text" class="form-control" id="product_name{{ $row->id }}" name="product_name" placeholder="Enter product name" value="{{ $row->product_name }}" required>

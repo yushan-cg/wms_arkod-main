@@ -99,7 +99,6 @@ class ProductController extends Controller
 
         // Validate the incoming request data
         $validated = $request->validate($validationRules);
-        \Log::info('Validated Data', $validated);
 
         // Prepare the data for insertion
         $data = [
@@ -126,8 +125,6 @@ class ProductController extends Controller
             Storage::move('public/' . $filename, 'public/image/product/' . $filename);
         }
 
-        \Log::info('Insert Data', $data);
-
         DB::beginTransaction();
         try {
             $insert = DB::table('products')->insert($data);
@@ -140,10 +137,9 @@ class ProductController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Insert Error', ['error' => $e->getMessage()]);
             return redirect()->route('product.index')->with('error', 'Failed to create product.');
         }
-}
+    }
 
     public function editProduct($id)
     {
@@ -175,6 +171,8 @@ class ProductController extends Controller
 
     public function updateProduct(Request $request, $id)
     {
+        // return $request;  {DEBUGGING}
+        
         // Define validation rules
         $validationRules = [
             'product_name' => 'required|string|max:255',
@@ -189,11 +187,10 @@ class ProductController extends Controller
 
         // Validate the incoming request data
         $validated = $request->validate($validationRules);
-        \Log::info('Validated Data', $validated);
 
         // Prepare the data for updating
         $data = [
-            'product_name' => $validated['product_name'],
+            'name' => $validated['product_name'],
             'SKU' => $validated['SKU'],
             'product_desc' => $validated['product_desc'] ?? null,
             'expired_date' => $validated['expired_date'] ?? null,
@@ -212,7 +209,6 @@ class ProductController extends Controller
             // Move the file to the desired folder
             Storage::move('public/' . $filename, 'public/image/' . $filename);
         }
-        \Log::info('Update Data', $data);
         
         DB::beginTransaction();
         try {
@@ -220,13 +216,15 @@ class ProductController extends Controller
             DB::commit();
 
             if ($update) {
+                //return "a";
                 return redirect()->route('product.index')->with('success', 'Product Updated Successfully!');
             } else {
+                //return "b";
                 return redirect()->route('product.index')->with('error', 'Failed to update product.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Update Error', ['error' => $e->getMessage()]);
+                //return $e;
             return redirect()->route('product.index')->with('error', 'Failed to update product.');
         }
     }

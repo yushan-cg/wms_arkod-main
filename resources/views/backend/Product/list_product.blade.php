@@ -81,6 +81,7 @@
 													@include('backend.product.edit_product', ['product' => $row])
 												</div>
 										</x-modal-form>
+										<!-- end modal -->
 										<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
 											Delete
 										</button>
