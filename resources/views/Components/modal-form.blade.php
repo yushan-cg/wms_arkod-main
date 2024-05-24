@@ -7,15 +7,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="{{ $formId }}" action="{{ $formAction }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PATCH')
-                {{ $slot }}
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" form="{{ $formId }}" class="btn btn-primary">{{ $submitButton }}</button>
-                </div>
-            </form>
+            {{ $slot }}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">{{ $submitButton }}</button>
+            </div>
+        </form>
         </div>
     </div>
 </div>

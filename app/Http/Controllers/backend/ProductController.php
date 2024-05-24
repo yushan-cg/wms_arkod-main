@@ -21,18 +21,6 @@ class ProductController extends Controller
         $this->middleware('auth');
     }
 
-
-    // Validation rules for both store and update methods
-    private $validationRules = [
-        'product_name' => 'required|string|max:255',
-        'SKU' => 'required|string|max:255',
-        'product_desc' => 'string',
-        'expired_date' => 'date',
-        'UOM' => 'required|string|max:255',
-        'weight_per_unit' => 'numeric',
-        'partner_id' => 'required',
-    ];
-
     /**
      * Display a listing of the resource.
      */
@@ -87,7 +75,9 @@ class ProductController extends Controller
      */
     public function addProduct(Request $request)
     {
-        return view('backend.product.create_product');
+        // Retrieve partners for the dropdown list in the form
+        $partners = Partner::all();
+        return view('backend.product.create_product', compact('partners'));
     }
 
     /**
@@ -95,32 +85,65 @@ class ProductController extends Controller
      */
     public function insertProduct(Request $request)
     {
-        $validatedData = $request->validate([
-            'company_id' => 'required',
+        // Define validation rules
+        $validationRules = [
             'product_name' => 'required|string|max:255',
-        ]);
-
-        $partner = DB::table('partners')
-            ->where('id', $request->PartnerID)
-            ->first();
-
-        $data = [
-            'user_id' => $Partner->UID,
-            'partner_id' => $request->PartnerID,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'SKU' => 'required|string|max:255',
+            'product_desc' => 'nullable|string',
+            'expired_date' => 'nullable|date',
+            'UOM' => 'required|string|max:50',
+            'weight_per_unit' => 'numeric',
+            'partner_id' => 'required|integer|exists:partners,id',
+            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
 
-        if ($request->hasFile('product_image')) {
-            $file = $request->file('product_image');
+        // Validate the incoming request data
+        $validated = $request->validate($validationRules);
+        \Log::info('Validated Data', $validated);
+
+        // Prepare the data for insertion
+        $data = [
+            'name' => $validated['product_name'],
+            'SKU' => $validated['SKU'],
+            'product_desc' => $validated['product_desc'] ?? null,
+            'expired_date' => $validated['expired_date'] ?? null,
+            'UOM' => $validated['UOM'],
+            'weight_per_unit' => $validated['weight_per_unit'] ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'uid' => auth()->user()->id,
+            'partner_id' => $validated['partner_id'],
+        ];
+
+        // Handle file upload
+        if ($request->hasFile('Img')) {
+            $file = $request->file('Img');
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/Image', $filename);
-            $data['product_image'] = $filename;
+            $file->storeAs('assets/images/product', $filename);
+            $data['Img'] = $filename;
 
             // Move the file to the desired folder
-            Storage::move('public/' . $filename, 'public/Image/' . $filename);
+            Storage::move('public/' . $filename, 'public/image/product/' . $filename);
         }
-    }
+
+        \Log::info('Insert Data', $data);
+
+        DB::beginTransaction();
+        try {
+            $insert = DB::table('products')->insert($data);
+            DB::commit();
+
+            if ($insert) {
+                return redirect()->route('product.index')->with('success', 'Product Created Successfully!');
+            } else {
+                return redirect()->route('product.index')->with('error', 'Failed to create product.');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Insert Error', ['error' => $e->getMessage()]);
+            return redirect()->route('product.index')->with('error', 'Failed to create product.');
+        }
+}
 
     public function editProduct($id)
     {
@@ -152,32 +175,45 @@ class ProductController extends Controller
 
     public function updateProduct(Request $request, $id)
     {
+        // Define validation rules
+        $validationRules = [
+            'product_name' => 'required|string|max:255',
+            'SKU' => 'required|string|max:255',
+            'product_desc' => 'nullable|string',
+            'expired_date' => 'nullable|date',
+            'UOM' => 'required|string|max:50',
+            'weight_per_unit' => 'numeric',
+            'partner_id' => 'required|integer|exists:partners,id',
+            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ];
+
         // Validate the incoming request data
-        $validated = $request->validate($this->validationRules);
+        $validated = $request->validate($validationRules);
         \Log::info('Validated Data', $validated);
 
         // Prepare the data for updating
         $data = [
-            'product_name' => $validated->product_name,
-            'SKU' => $validated->SKU,
-            'product_desc' => $validated->product_desc,
-            'expired_date' => $validated->expired_date,
-            'UOM' => $validated->UOM,
-            'weight_per_unit' => $validated->weight_per_unit,
+            'product_name' => $validated['product_name'],
+            'SKU' => $validated['SKU'],
+            'product_desc' => $validated['product_desc'] ?? null,
+            'expired_date' => $validated['expired_date'] ?? null,
+            'UOM' => $validated['UOM'],
+            'weight_per_unit' => $validated['weight_per_unit'] ?? null,
             'updated_at' => now(),
-            'partner_id' => $validated->partner_id,
+            'partner_id' => $validated['partner_id'],
         ];
         // Handle file upload
         if ($request->hasFile('Img')) {
             $file = $request->file('Img');
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/Image', $filename);
+            $file->storeAs('assets/images/product', $filename);
             $data['Img'] = $filename;
 
             // Move the file to the desired folder
             Storage::move('public/' . $filename, 'public/image/' . $filename);
         }
         \Log::info('Update Data', $data);
+        
         DB::beginTransaction();
         try {
             $update = DB::table('products')->where('id', $id)->update($data);
@@ -214,17 +250,6 @@ class ProductController extends Controller
         }
     }
 
-
-    public function getProducts($company_id)
-    {
-        $products = Product::where('company_id', $company_id)->pluck('product_name', 'id');
-        return response()->json($products);
-    }
-
-    public function SendRequestProduct(Request $request)
-    {
-      
-    }
 
     public function approveRequest($id) //for restock request view admin
     {

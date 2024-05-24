@@ -2,10 +2,23 @@
 @section('content')
 <title>Product List</title>
 <style>
+.fixed-row {
+    width: 50%; /* Adjust width as needed */
+}
+.fixed-col {
+    width: 50%; /* Adjust width as needed */
+}
+
+.fixed-col img {
+    width: 100%; /* Make image fill the column */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 150px; /* Maximum height of images */
+}
+
 .text-danger {
 	border: none;
-  padding: 0;
-  background: none;
+	padding: 0;
+	background: none;
 }
 </style>
 
@@ -22,7 +35,7 @@
 					<table id="productorder" class="table table-hover no-wrap product-order" data-page-size="10">
 						<thead>
 							<tr>
-							<th>#</th>
+							<th>ID</th>
 							<th>Customer/Company</th>
 							<th>SKU</th>
 							<th>Product Name</th>
@@ -36,16 +49,16 @@
 						</thead>
 						<tbody>
 						@foreach ($list as $index => $row)
-
-							<tr>
-								<td>{{ $loop->iteration }}</td> <!-- Billing number -->
+							<tr class="fixed-row fixed-col">
+								{{-- <td>{{ $loop->iteration }}</td> --}}
+								<td>{{ $row->id }}</td>
 								<td>{{ $row->partner_name }}</td>
 								<td>{{ $row->SKU }}</td>
 								<td>{{ $row->product_name }}</td>
 								<td>{{ $row->product_desc }}</td>
 								<td>{{ $row->expired_date }}</td>
 								<td>
-									<img src="{{ asset('assets/images/' . $row->Img) }}" width="50" height="50">
+									<img src="{{ asset('assets/images/product/' . $row->Img) }}" width="50" height="50">
 								</td>
 								@if (Auth::user()->role == 1)
 									<td>
@@ -60,19 +73,13 @@
 											formId="editProductForm{{ $row->id }}" 
 											formAction="{{ route('update_product', $row->id) }}" 
 											submitButton="Save edit">
-											<!-- Form fields -->
-											<div class="modal-body">
-												@include('backend.product.edit_product', ['product' => $row])
-												<div class="form-group">
-													<label for="partner_id">Select the Customer/Company of the product</label>
-													<select class="form-control" id="partner_id" name="partner_id" required>
-														<option value="">Select Customer/Company</option>
-														@foreach($partners as $partner)
-															<option value="{{ $partner->id }}" {{ $partner->id == $row->partner_id ? 'selected' : '' }}>{{ $partner->name }}</option>
-														@endforeach
-													</select>
+											<form id="editProductForm{{ $row->id }}" action="{{ route('update_product', $row->id) }}" method="POST" enctype="multipart/form-data">
+												@csrf
+												@method('PATCH')
+												<!-- Form fields -->
+												<div class="modal-body">
+													@include('backend.product.edit_product', ['product' => $row])
 												</div>
-											</div>
 										</x-modal-form>
 										<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
 											Delete
