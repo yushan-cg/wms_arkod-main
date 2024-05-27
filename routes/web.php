@@ -14,6 +14,15 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+//Floors
+Route::get('/floor-overview', function () {
+    return view('backend.rack.floorOverview');
+})->name('floor.overview');
+
+Route::get('/waybill', [WaybillController::class, 'generateWaybill'])->name('generate.waybill');
+Route::get('/invoice', [InvoiceController::class, 'generateInvoice'])->name('generate.invoice');
+
+
 Auth::routes();
 
 Route::get('/homehome', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -34,8 +43,8 @@ Route::prefix('product')->group(function () {
     Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit_product');
     Route::patch('/update/{id}', [ProductController::class, 'updateProduct'])->name('update_product');
     Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete_product');
-    Route::get('/qr',[ProductController::class, 'ProductQR']);
-    Route::get('/getQRInfo/{productCode}',[ProductController::class, 'getProductQRInfo']);
+    Route::get('/qr', [ProductController::class, 'ProductQR']);
+    Route::get('/getQRInfo/{productCode}', [ProductController::class, 'getProductQRInfo']);
 });
 
 // Password management
@@ -45,4 +54,3 @@ Route::prefix('password')->group(function () {
     Route::get('/reset/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('/reset', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
-
