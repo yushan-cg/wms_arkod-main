@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Partner;
@@ -40,7 +41,7 @@ class ProductController extends Controller
                 'products.SKU',
                 'products.product_desc',
                 'products.expired_date',
-                'products.Img',
+                DB::raw("CONCAT('/storage/assets/images/product/', products.Img) as Img"),
                 'products.UOM',
                 'products.weight_per_unit',
                 'products.updated_at',
@@ -71,20 +72,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function addProduct(Request $request)
-    {
-        // Retrieve partners for the dropdown list in the form
-        $partners = Partner::all();
-        return view('backend.product.create_product', compact('partners'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function insertProduct(Request $request)
     {
+        //return $request;
         // Define validation rules
         $validationRules = [
             'product_name' => 'required|string|max:255',
@@ -92,7 +84,7 @@ class ProductController extends Controller
             'product_desc' => 'nullable|string',
             'expired_date' => 'nullable|date',
             'UOM' => 'required|string|max:50',
-            'weight_per_unit' => 'numeric',
+            'weight_per_unit' => 'numeric|nullable',
             'partner_id' => 'required|integer|exists:partners,id',
             'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
@@ -113,16 +105,14 @@ class ProductController extends Controller
             'uid' => auth()->user()->id,
             'partner_id' => $validated['partner_id'],
         ];
+        return $data;
 
         // Handle file upload
         if ($request->hasFile('Img')) {
             $file = $request->file('Img');
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('assets/images/product', $filename);
+            $file->storeAs('public/assets/images/product', $filename);
             $data['Img'] = $filename;
-
-            // Move the file to the desired folder
-            Storage::move('public/' . $filename, 'public/image/product/' . $filename);
         }
 
         DB::beginTransaction();
@@ -131,13 +121,16 @@ class ProductController extends Controller
             DB::commit();
 
             if ($insert) {
-                return redirect()->route('product.index')->with('success', 'Product Created Successfully!');
+                return 'success';
+                //return redirect()->route('product.index')->with('success', 'Product Created Successfully!');
             } else {
-                return redirect()->route('product.index')->with('error', 'Failed to create product.');
+                return 'fail';
+                //return redirect()->route('product.index')->with('error', 'Failed to create product.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('product.index')->with('error', 'Failed to create product.');
+            //return redirect()->route('product.index')->with('error', 'Failed to create product.');
+            return 'error';
         }
     }
 
@@ -203,11 +196,8 @@ class ProductController extends Controller
         if ($request->hasFile('Img')) {
             $file = $request->file('Img');
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('assets/images/product', $filename);
+            $file->storeAs('public/assets/images/product', $filename);
             $data['Img'] = $filename;
-
-            // Move the file to the desired folder
-            Storage::move('public/' . $filename, 'public/image/' . $filename);
         }
         
         DB::beginTransaction();
@@ -229,24 +219,53 @@ class ProductController extends Controller
         }
     }
 
-    public function ProductDelete($id)
+    public function deleteProduct($id)
     {
-        $product = Product::where('ProductID', $id)->firstOrFail();
+        // Retrieve the product by ID, if not found throw a 404 error
+        $product = Product::findOrFail($id);
 
-        if ($product->delete()) {
+        // Begin a transaction to ensure both product and image are deleted together
+        DB::beginTransaction();
+        try {
+            // If the product has an image, delete it from storage
+            if ($product->Img) {
+                // Construct the full path to the image
+                $imagePath = storage_path('app/public/assets/images/product/' . $product->Img);
+
+                // Check if the image file exists and delete it
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
+
+            // Delete the product from the database
+            $product->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            // Prepare the success notification
             $notification = array(
                 'message' => 'Product Deleted Successfully',
                 'alert-type' => 'success'
             );
-            return redirect()->back()->with($notification);
-        } else {
+
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollBack();
+
+            // Prepare the error notification
             $notification = array(
-                'message' => 'Error',
+                'message' => 'Error: ' . $e->getMessage(),
                 'alert-type' => 'error'
             );
-            return redirect()->back()->with($notification);
         }
+
+        // Redirect back with the notification
+        return redirect()->back()->with($notification);
     }
+
+
 
 
     public function approveRequest($id) //for restock request view admin

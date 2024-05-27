@@ -24,7 +24,19 @@
 
 <div>
 	<!-- Content Header -->
-		<x-content-header title="Product List" buttonRoute="{{ route('add_product') }}" buttonText="Add New Product" />
+	<x-content-header title="Product List">
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+			Add New Product
+		</button>
+		<x-modal-form 	
+			modalId="addProductModal" 
+			modalTitle="Add Product" 
+			formId="addProductForm" 
+			formAction="{{ route('insert_product') }}" 
+			submitButton="Add this product">
+			@include('backend.product.create_product')
+		</x-modal-form>
+	</x-content-header>
 	<!-- Main content -->
 	<section class="content">
 		<div class="row">
@@ -58,12 +70,12 @@
 								<td>{{ $row->product_desc }}</td>
 								<td>{{ $row->expired_date }}</td>
 								<td>
-									<img src="{{ asset('assets/images/product/' . $row->Img) }}" width="50" height="50">
+									<img src="{{ $row->Img }}" alt="{{ $row->product_name }}" width="50" height="50">
 								</td>
 								@if (Auth::user()->role == 1)
 									<td>
 										<!-- Add any action buttons or links here -->
-										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal{{ $row->id }}">
+										<button type="button" class="btn btn-primary" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#editProductModal{{ $row->id }}">
 											Edit
 										</button>
 										<!-- Modal for editing product -->
@@ -82,7 +94,7 @@
 												</div>
 										</x-modal-form>
 										<!-- end modal -->
-										<button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-product-form-{{ $row->id }}').submit();">
+										<button type="button" class="btn btn-danger" style="width: 75px;" onclick="confirmDelete({{ $row->id }});">
 											Delete
 										</button>
 										<form id="delete-product-form-{{ $row->id }}" action="{{ route('delete_product', $row->id) }}" method="POST" style="display: none;">
@@ -118,4 +130,12 @@
 	<script src="{{ asset('assets/js/template.js') }}"></script>
 
 	<script src="{{ asset('assets/js/pages/data-table.js') }}"></script>
+
+	<script>
+		function confirmDelete(id) {
+			if (confirm('Are you sure you want to delete this product?')) {
+				document.getElementById('delete-product-form-' + id).submit();
+			}
+		}
+	</script>
 @endsection

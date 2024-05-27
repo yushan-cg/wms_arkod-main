@@ -5,7 +5,7 @@
 			<div class="row mb-3">
 		  	  <div class="col-12 d-flex justify-content-between">
 				<h1 class="page-title">{{ $title }}</h1>
-		  		<a href="{{ $buttonRoute }}" class="btn btn-success">{{ $buttonText }}</a>
+		  		{{ $slot }}
 		  	  </div>
 		    </div>
 		</div>

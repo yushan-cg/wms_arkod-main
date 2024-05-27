@@ -29,8 +29,7 @@ Route::prefix('user')->group(function () {
 // Admin side product management
 Route::prefix('product')->group(function () {
     Route::get('/list', [ProductController::class, 'listProduct'])->name('product.index');
-    Route::get('/add', [ProductController::class, 'addProduct'])->name('add_product');
-    Route::post('/insert', [ProductController::class, 'insertProduct'])->name('product.insert');
+    Route::post('/insert', [ProductController::class, 'insertProduct'])->name('insert_product');
     Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit_product');
     Route::patch('/update/{id}', [ProductController::class, 'updateProduct'])->name('update_product');
     Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete_product');
