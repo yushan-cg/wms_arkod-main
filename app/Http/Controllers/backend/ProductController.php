@@ -86,7 +86,7 @@ class ProductController extends Controller
             'UOM' => 'required|string|max:50',
             'weight_per_unit' => 'numeric|nullable',
             'partner_id' => 'required|integer|exists:partners,id',
-            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240'
         ];
 
         // Validate the incoming request data
@@ -105,7 +105,6 @@ class ProductController extends Controller
             'uid' => auth()->user()->id,
             'partner_id' => $validated['partner_id'],
         ];
-        return $data;
 
         // Handle file upload
         if ($request->hasFile('Img')) {
@@ -113,7 +112,11 @@ class ProductController extends Controller
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/assets/images/product', $filename);
             $data['Img'] = $filename;
+
+            // Move the file to the desired folder
+            Storage::move('public/' . $filename, 'public/assets/images/product' . $filename);
         }
+        //return $data;
 
         DB::beginTransaction();
         try {
@@ -121,16 +124,14 @@ class ProductController extends Controller
             DB::commit();
 
             if ($insert) {
-                return 'success';
-                //return redirect()->route('product.index')->with('success', 'Product Created Successfully!');
+                return redirect()->route('product.index')->with('success', 'Product Created Successfully!');
             } else {
-                return 'fail';
-                //return redirect()->route('product.index')->with('error', 'Failed to create product.');
+                return redirect()->route('product.index')->with('error', 'Failed to create product.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
             //return redirect()->route('product.index')->with('error', 'Failed to create product.');
-            return 'error';
+            return $e;
         }
     }
 
@@ -175,7 +176,7 @@ class ProductController extends Controller
             'UOM' => 'required|string|max:50',
             'weight_per_unit' => 'numeric',
             'partner_id' => 'required|integer|exists:partners,id',
-            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'Img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240'
         ];
 
         // Validate the incoming request data
@@ -198,6 +199,9 @@ class ProductController extends Controller
             $filename = date('YmdHi') . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/assets/images/product', $filename);
             $data['Img'] = $filename;
+
+            // Move the file to the desired folder
+            Storage::move('public/' . $filename, 'public/assets/images/product' . $filename);
         }
         
         DB::beginTransaction();
