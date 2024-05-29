@@ -47,7 +47,7 @@
 							<p class="fs-18 mt-10">Units Delivered</p>
 						</div>
 					</div>
-				</div>				
+				</div>
 				<div class="col-xl-6 col-12">
 					<div class="box">
 						<div class="box-header">
@@ -82,7 +82,7 @@
 							</div>
 						</div>
 					</div>
-				</div>					
+				</div>
 				<div class="col-xl-6 col-12">
 					<div class="box">
 						<div class="box-header">
@@ -90,992 +90,44 @@
 						</div>
 						<div class="box-body">
 							<div id="recent_trend"></div>
-						</div>								
+						</div>
 					</div>
-				</div>				
+				</div>
+
+
+
+
+
 				<div class="col-xl-8 col-12">
 					<div class="box position-static">
 						<div class="box-header">
-							<h4 class="box-title">Floor Overview</h4>
-							<div class="box-controls pull-right">
-								<input class="form-control no-border bg-lightest" id="e" type="date">
-							</div>
+                            <a href="{{ route('floor.overview') }}" class="box-title">Floor Overview</a>
 						</div>
 						<div class="box-body">
-							<div class="row mb-20">
-								<div class="col-lg-3 col-md-6 col-12">
-									<div class="row g-0 row-cols-auto">
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">A-1</h4>
-																<p class="text-white">36/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
+                            <div class="container" style="height: 500px; overflow-y: auto;">
+                                @include('backend.rack.floor')
+                            </div>
 
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-															<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">A-10</h4>
-																<p class="text-white">40/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">A-10</h4>
-																<p class="text-white">40/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">A-3</h4>
-																<p class="text-white">40/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">A-4</h4>
-																<p class="text-white">25/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-md-6 col-12">
-									<div class="row g-0 row-cols-auto">
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">B-1</h4>
-																<p class="text-white">62.4/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">B-2</h4>
-																<p class="text-white">36.8/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<div class="w-40 h-40 m-5">	</div>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 col-12">
-									<div class="row g-0 row-cols-auto">
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<div class="w-40 h-40 m-5">	</div>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-6 col-12">
-									<div class="row g-0 row-cols-auto">	
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">D-7</h4>
-																<p class="text-white">113/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">D-8</h4>
-																<p class="text-white">76/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">D-9</h4>
-																<p class="text-white">90/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">D-10</h4>
-																<p class="text-white">47/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">E-1</h4>
-																<p class="text-white">85.4/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">E-2</h4>
-																<p class="text-white">174/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">E-3</h4>
-																<p class="text-white">201/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-md-6 col-12">
-									<div class="row g-0 row-cols-auto">
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">F-1</h4>
-																<p class="text-white">20.8/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">F-2</h4>
-																<p class="text-white">57/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>								
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">F-3</h4>
-																<p class="text-white">236/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<div class="w-40 h-40 m-5">	</div>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>										
-									</div>
-								</div>
-								<div class="col-lg-6 col-12">
-									<div class="row g-0 row-cols-auto">
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">H-3</h4>
-																<p class="text-white">100/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<div class="w-40 h-40 m-5">	</div>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-															<h4 class="text-white my-0">H-4</h4>
-																<p class="text-white">53/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">H-5</h4>
-																<p class="text-white">90/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">J-1</h4>
-																<p class="text-white">136/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">J-2</h4>
-																<p class="text-white">30/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>	
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">Empty</h4>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-										<div class="col">
-											<div class="section-bx">
-												<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">	
-													<div class="bx-dec">
-														<div class="section-dec d-flex align-items-center">
-															<div class="box-img">
-																<img src="{{ asset('assets/images/box.png') }}" class="img-fluid" alt="" />
-															</div>
-															<div class="dec">
-																<h4 class="text-white my-0">I-3</h4>
-																<p class="text-white">94/300kg Occupied</p>
-																<p class="mb-0 text-white-50"></p>
-															</div>
-														</div>
-													</div>										
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+
 							<div class="d-flex mt-20">
-								<div class="d-flex">
-									<div class="w-20 h-20 bg-warning-light rounded"></div>
-									<h5 class="mx-15 my-0">Free Place</h5>
-								</div>
-								<div class="d-flex">
-									<div class="w-20 h-20 bg-warning rounded"></div>
-									<h5 class="mx-15 my-0">Loaded Place</h5>
-								</div>
-							</div>
+                                <div class="d-flex">
+                                    <div class="w-60 h-30 rounded" style="background-color: #808080;"></div>
+                                    <h5 class="mx-15 my-0">Empty</h5>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="w-60 h-30 rounded" style="background-color: #05a322;"></div>
+                                    <h5 class="mx-15 my-0">Occupied</h5>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="w-60 h-30 rounded" style="background-color: #FF5733;"></div>
+                                    <h5 class="mx-15 my-0">Full</h5>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-xl-4">
-					<div class="box overflow-h">		
+					<div class="box overflow-h">
 						<div class="box-header no-border">
 							<h4 class="box-title">Inventory Overview</h4>
 							<ul class="box-controls pull-right">
@@ -1091,7 +143,7 @@
 							  </li>
 							</ul>
 						</div>
-						<div class="box-body py-0">	
+						<div class="box-body py-0">
 							<div class="row">
 								<div class="col-6">
 									<div class="py-10">
@@ -1119,7 +171,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="box-body p-0">	
+						<div class="box-body p-0">
 							<div id="revenue4" class="text-dark min-h-auto"></div>
 						</div>
 					</div>
@@ -1198,7 +250,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 15-08-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Used</span>										  
+									  	<span class="mx-5">Used</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-primary" role="progressbar" style="width: 20%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1211,7 +263,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 05-08-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Used</span>										  
+									  	<span class="mx-5">Used</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-primary" role="progressbar" style="width: 28%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1224,7 +276,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 10-09-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Used</span>										  
+									  	<span class="mx-5">Used</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-danger" role="progressbar" style="width: 80%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1237,7 +289,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 15-09-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Used</span>										  
+									  	<span class="mx-5">Used</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-warning" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1250,7 +302,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 21-09-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Used</span>										  
+									  	<span class="mx-5">Used</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-warning" role="progressbar" style="width: 58%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1263,7 +315,7 @@
 								  <td><span class="text-muted text-nowrap"><i class="fa fa-calendar-o text-success-light mx-5"></i> 30-08-2023</span> </td>
 								  <td>
 									  <div class="d-flex align-items-center">
-									  	<span class="mx-5">Free</span>										  
+									  	<span class="mx-5">Free</span>
 										  <div class="progress progress-xs w-p100 mt-0">
 											<div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 										  </div>
@@ -1280,7 +332,7 @@
 						  <h4 class="box-title">Average Inventory Turnaround</h4>
 						</div>
 						<div class="box-body py-0">
-							<div id="overview_trend"></div>	
+							<div id="overview_trend"></div>
 						</div>
 					</div>
 				</div>
@@ -1295,13 +347,13 @@
 	<script src="{{ asset('assets/js/vendors.min.js') }}"></script>
 	<script src="{{ asset('assets/js/pages/chat-popup.js') }}"></script>
     <script src="{{ asset('assets/icons/feather-icons/feather.min.js') }}"></script>
-	
+
 	<script src="{{ asset('assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
 	<script src="{{ asset('assets/vendor_components/progressbar.js-master/dist/progressbar.js') }}"></script>
 	<script>
 		document.getElementById('e').value = new Date().toISOString().substring(0, 10);
 	</script>
-	
+
 	<!-- Deposito Admin App -->
 	<script src="{{ asset('assets/js/template.js') }}"></script>
 	<script src="{{ asset('assets/js/pages/dashboard2.js') }}"></script>
