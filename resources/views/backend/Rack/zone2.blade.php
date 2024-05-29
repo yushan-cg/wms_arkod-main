@@ -36,12 +36,12 @@
         @endfor
 
         <?php
-        $data = DB::table('location')->where('LocationCode', '=','Z2-' . $column . '-F' . $rack_row)->first();
+        $data = DB::table('locations')->where('code', '=','Z2-' . $column . '-F' . $rack_row)->first();
         $full = false;
         $partial = false;
 
         if($data) {
-            if($data->Occupied >= $data->Capacity) {
+            if($data->occupied >= $data->capacity) {
                 $full = true;
             } else {
                 $partial = true;
@@ -66,9 +66,9 @@
                         <div class="dec">
                             <h4 class="text-white my-0">
                                 @if($data)
-                                            @if($data->LocationType == 1)
+                                            @if($data->type == 1)
                                                 <?php $LocationTypeName = "Floor";
-                                                $content = $data->Occupied . '/' . $data->Capacity;
+                                                $content = $data->occupied . '/' . $data->capacity;
                                                 ?>
                                             @endif
 
@@ -116,13 +116,13 @@
                     @foreach(range(1, 10) as $row)
                         <?php
                             $rack_row = $row;
-                            $data = DB::table('location')->where('LocationCode', '=','Z2-' . $column . '-F' . $rack_row)->first();
-                            $occupied_capacity = $data ? $data->Occupied . '/' . $data->Capacity : '-';
+                            $data = DB::table('locations')->where('code', '=','Z2-' . $column . '-F' . $rack_row)->first();
+                            $occupied_capacity = $data ? $data->occupied . '/' . $data->capacity : '-';
                             $stock_level = '-';
                             $label = '';
 
                             if($data) {
-                                if($data->Occupied >= $data->Capacity) {
+                                if($data->occupied >= $data->capacity) {
                                     $stock_level = 'Full';
                                     $label = '<span class="badge bg-full">Full</span>';
                                 } else {

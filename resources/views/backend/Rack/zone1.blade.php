@@ -43,12 +43,12 @@
             @endif
         @endfor
         <?php
-        $data = DB::table('location')->where('LocationCode', '=','Z1-' . $column . '-F' . $rack_row)->first();
+        $data = DB::table('locations')->where('code', '=','Z1-' . $column . '-F' . $rack_row)->first();
         $full = false;
         $partial = false;
 
         if($data) {
-            if($data->Occupied >= $data->Capacity) {
+            if($data->occupied >= $data->capacity) {
                 $full = true;
             } else {
                 $partial = true;
@@ -70,14 +70,14 @@
                         <div class="dec">
                             <h4 class="text-white my-0">
                                 @if($data)
-                                    @if($data->LocationType == 1)
+                                    @if($data->type == 1)
                                         <?php
-                                        $LocationTypeName = "Floor";
-                                        $content = $data->Occupied . '/' . $data->Capacity;
+                                        $TypeName = "Floor";
+                                        $content = $data->occupied . '/' . $data->capacity;
                                         ?>
                                     @endif
 
-                                    {{ $LocationTypeName }}
+                                    {{ $TypeName }}
                                     <br>
                                     {{ $column }}-F{{ $rack_row }}
                                     <hr>
@@ -110,7 +110,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Location Code</th>
+                        <th> Code</th>
                         <th>Occupied/Capacity</th>
                         <th>Stock Level</th>
                         <th>Label</th>
@@ -121,13 +121,13 @@
                     @foreach(range(1, 21) as $row)
                         <?php
                         $rack_row = $row;
-                        $data = DB::table('location')->where('LocationCode', '=','Z1-' . $column . '-F' . $rack_row)->first();
-                        $occupied_capacity = $data ? $data->Occupied . '/' . $data->Capacity : '-';
+                        $data = DB::table('locations')->where('Code', '=','Z1-' . $column . '-F' . $rack_row)->first();
+                        $occupied_capacity = $data ? $data->occupied . '/' . $data->capacity : '-';
                         $stock_level = '-';
                         $label = '';
 
                         if($data) {
-                            if($data->Occupied >= $data->Capacity) {
+                            if($data->occupied >= $data->capacity) {
                                 $stock_level = 'Full';
                                 $label = '<span class="badge bg-full">Full</span>';
                             } else {
