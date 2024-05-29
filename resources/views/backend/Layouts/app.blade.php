@@ -172,7 +172,7 @@
     </nav>
   </header>
     <!-- Main Sidebar Container -->
-    @include('backend.Layouts.sidebar')
+    @include('backend.Layouts.sidebar1')
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       <div class="container-full">

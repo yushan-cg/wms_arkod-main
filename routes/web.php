@@ -9,6 +9,8 @@ use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\backend\InvoiceController;
+use App\Http\Controllers\backend\WaybillController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -25,7 +27,7 @@ Route::get('/invoice', [InvoiceController::class, 'generateInvoice'])->name('gen
 
 Auth::routes();
 
-Route::get('/homehome', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // User management
 Route::prefix('user')->group(function () {
