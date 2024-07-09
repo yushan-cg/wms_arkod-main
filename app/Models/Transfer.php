@@ -10,10 +10,10 @@ class Product extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(User::class, 'user_id');
     }
 
-    public function partner()
+    public function customer()
     {
         return $this->belongsTo(Partner::class);
     }

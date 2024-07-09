@@ -41,11 +41,8 @@ Route::prefix('user')->group(function () {
 Route::prefix('product')->group(function () {
     Route::get('/list', [ProductController::class, 'listProduct'])->name('product.index');
     Route::post('/insert', [ProductController::class, 'insertProduct'])->name('insert_product');
-    Route::get('/edit/{id}', [ProductController::class, 'editProduct'])->name('edit_product');
     Route::patch('/update/{id}', [ProductController::class, 'updateProduct'])->name('update_product');
     Route::delete('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete_product');
-    Route::get('/qr', [ProductController::class, 'ProductQR']);
-    Route::get('/getQRInfo/{productCode}', [ProductController::class, 'getProductQRInfo']);
 });
 
 // Password management
@@ -54,4 +51,9 @@ Route::prefix('password')->group(function () {
     Route::post('/forget', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
     Route::get('/reset/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('/reset', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+});
+
+// Operations/Delivery & Waybill
+Route::prefix('transfer')->group(function () {
+    Route::get('/delivery', [ProductController::class, '#'])->name('dolist');
 });
